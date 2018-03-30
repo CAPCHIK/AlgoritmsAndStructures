@@ -38,7 +38,7 @@ namespace B_Tree
                     i++;
                 node.childs[i].InsertNonFull(value);
 
-                // Change root
+                
                 root = node;
                 return;
             }
