@@ -7,17 +7,14 @@ namespace B_Tree
 {
     class BTree<T> where T : class, IInTreeValue
     {
-        private List<T> added = new List<T>();
         private readonly int t;
         private Node<T> root;
         public BTree(int t)
         {
             this.t = t;
         }
-        public void Add(T value) => Add(value, true);
-        private void Add(T value, bool addToList)
+        public void Add(T value)
         {
-            if (addToList) added.Add(value);
             if (root == null)
             {
                 root = new Node<T>(t, true);
@@ -25,7 +22,7 @@ namespace B_Tree
                 root.n = 1;
                 return;
             }
-            if (root.n == 2*t - 1)
+            if (root.n == 2 * t - 1)
             {
                 var node = new Node<T>(t, false);
 
@@ -38,24 +35,35 @@ namespace B_Tree
                     i++;
                 node.childs[i].InsertNonFull(value);
 
-                
+
                 root = node;
                 return;
             }
             root.InsertNonFull(value);
         }
-        
-        public void Remove(int key)
+
+        public void Remove(int k)
         {
-            var a = added.FirstOrDefault(v => v.Key == key);
-            if (a == null) return;
-            added.Remove(a);
-            root = null;
-            foreach (var item in added)
+            if (root == null)
             {
-                Add(item, false);
+                Console.WriteLine("The tree is empty");
+                return;
             }
+
+            root.Remove(k);
+
+            if (root.n == 0)
+            {
+                var tmp = root;
+                if (root.leaf)
+                    root = null;
+                else
+                    root = root.childs[0];
+            }
+            return;
         }
+
+
 
         public void Print()
         {

@@ -23,6 +23,7 @@ namespace B_Tree
         static Random random = new Random();
         static string RandomWord()
         {
+            return "";
             return somewords[random.Next() % somewords.Count];
         }
         static void Main(string[] args)
